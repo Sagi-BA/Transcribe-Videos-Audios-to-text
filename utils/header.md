@@ -1,3 +1,3 @@
 # אפליקציה המאפשרת לעלות קבצי אודיו או וידאו ולחלץ את הטקסט מהם בעברית
 
-![image](https://i.imgur.com/FP3aH2R.jpeg)
+![image](https://i.imgur.com/FXFMBi4.jpeg)
