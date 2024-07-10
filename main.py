@@ -1,6 +1,7 @@
-# [![Watch the video](https://img.youtube.com/vi/vdaXGeOyvbE/maxresdefault.jpg)](https://youtu.be/vdaXGeOyvbE)
 import asyncio
 import streamlit as st
+import os
+import shutil
 
 from utils.init import initialize
 from utils.counter import initialize_user_count, increment_user_count, decrement_user_count, get_user_count
@@ -36,28 +37,17 @@ def start_over():
     st.session_state.active_tab = None
     print("Session state cleared for Start Over")
 
+def delete_uploaded_files(file_paths):
+    for file_path in file_paths:
+        try:
+            os.remove(file_path)
+            print(f"Deleted file: {file_path}")
+        except Exception as e:
+            print(f"Error deleting file {file_path}: {e}")
+
 def main():
     header_content, footer_content = initialize()
     st.markdown(header_content)
-
-    # Add custom CSS for button styling
-    st.markdown("""
-    <style>
-    div.stButton > button:first-child {
-        background-color: #0099ff;
-        color: white;
-        font-size: 20px;
-        font-weight: bold;
-        border: 2px solid #0099ff;
-        border-radius: 10px;
-        padding: 10px 24px;
-        margin: 10px 0px;
-    }
-    div.stButton > button:hover {
-        background-color: #0077cc;
-        border-color: #0077cc;
-    }
-    </style>""", unsafe_allow_html=True)
 
     if st.button("התחל מחדש", use_container_width=True):
         start_over()
@@ -74,14 +64,12 @@ def main():
             st.error("נא להעלות קבצים תחילה.")
             return
 
-        
         edited_texts = process_interviews(st.session_state['file_paths'])
         st.session_state['edited_texts'] = edited_texts
 
         if edited_texts:
             all_texts_combined = []
             for file_name, transcriptions in edited_texts.items():
-                # נוודא ש-transcriptions הוא רשימה של מחרוזות וללא ערכים None
                 if isinstance(transcriptions, list):
                     transcriptions = [t for t in transcriptions if t is not None]
                     if all(isinstance(t, str) for t in transcriptions):
@@ -93,11 +81,17 @@ def main():
                 else:
                     st.error(f"לא ניתן לעבד את התמלול עבור {file_name}.")
             
-            # נבדוק אם all_texts_combined אינו ריק לפני שליחת ההודעה ל-Telegram
             if all_texts_combined:
                 all_texts_combined = "\n\n".join(all_texts_combined)
                 st.session_state['all_texts_combined'] = all_texts_combined
                 asyncio.run(send_telegram_message(all_texts_combined))
+                
+                # Delete uploaded files after successful processing
+                delete_uploaded_files(st.session_state['file_paths'])
+                st.success("הקבצים שהועלו נמחקו בהצלחה.")
+                
+                # Clear file_paths from session state
+                del st.session_state['file_paths']
             else:
                 st.error("לא הצלחנו לחלץ טקסט מהקבצים שהועלו.")
 
