@@ -1,14 +1,12 @@
+import asyncio
 import streamlit as st
+
 from utils.init import initialize
 from utils.counter import initialize_user_count, increment_user_count, decrement_user_count, get_user_count
 from utils.file_upload import upload_files
 from utils.interview_processing import process_interviews
-
 from utils.TelegramSender import TelegramSender
-from io import BytesIO
 
-# Initialize logging
-# logging.basicConfig(level=logging.INFO)
 UPLOAD_DIR = "uploads"
 
 # Initialize TelegramSender
@@ -30,24 +28,15 @@ def on_session_end():
 st.session_state.on_session_end = on_session_end
 
 def start_over():
-    # Keys to keep
-    keys_to_keep = ['counted', 'on_session_end', 'google_model', 'telegram_sender']
-    
-    # Remove all keys except the ones we want to keep
+    keys_to_keep = ['counted', 'on_session_end', 'telegram_sender']
     for key in list(st.session_state.keys()):
         if key not in keys_to_keep:
             del st.session_state[key]
-    
-    # Reset the active_tab
     st.session_state.active_tab = None
-    
     print("Session state cleared for Start Over")
 
 def main():
-    # Initialize Streamlit configuration and load resources
     header_content, footer_content = initialize()
-
-    # Header
     st.markdown(header_content)
 
     # Add custom CSS for button styling
@@ -69,32 +58,52 @@ def main():
     }
     </style>""", unsafe_allow_html=True)
 
-    # Handle the "Start Over" button click
     if st.button("התחל מחדש", use_container_width=True):
-        start_over()        
+        start_over()
 
-    # Handle file upload    
     file_paths = upload_files()
     if file_paths:
+        if len(file_paths) > 5:
+            st.error("לא ניתן להעלות יותר מ-5 קבצים.")
+            return
         st.session_state['file_paths'] = file_paths
 
     if st.button("תמלל", use_container_width=True):
-        print("תמלול")
-        if not file_paths:
+        if 'file_paths' not in st.session_state or not st.session_state['file_paths']:
             st.error("נא להעלות קבצים תחילה.")
-            return        
+            return
+
         
-        st.info(f"מנסה לעבד קבצים: {st.session_state['file_paths']}")
         edited_texts = process_interviews(st.session_state['file_paths'])
         st.session_state['edited_texts'] = edited_texts
-        for transcription in edited_texts.items():                        
-            st.subheader(transcription)
-            st.divider()
+
+        if edited_texts:
+            all_texts_combined = []
+            for file_name, transcriptions in edited_texts.items():
+                # Join the list of transcriptions for each file
+                file_text = "\n".join(transcriptions)
+                st.text_area(f"טקסט שחולץ מ-{file_name}", value=file_text, height=200)
+                all_texts_combined.append(file_text)
+
+            # Join all file transcriptions
+            all_texts_combined = "\n\n".join(all_texts_combined)
+            st.session_state['all_texts_combined'] = all_texts_combined
+
+            # Send text to Telegram asynchronously
+            asyncio.run(send_telegram_message(all_texts_combined))            
+        else:
+            st.error("לא הצלחנו לחלץ טקסט מהקבצים שהועלו.")
 
     user_count = get_user_count(formatted=True)
-    
     footer_with_count = f"{footer_content}\n\n<p class='user-count'>סה\"כ משתמשים: {user_count}</p>"
     st.markdown(footer_with_count, unsafe_allow_html=True)
 
+async def send_telegram_message(text):
+    sender = st.session_state.telegram_sender
+    try:
+        await sender.send_message(text, "Transcribe Videos or Audios to text")
+    finally:
+        await sender.close_session()
+        
 if __name__ == "__main__":
     main()

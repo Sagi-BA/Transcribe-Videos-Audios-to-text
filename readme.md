@@ -2,10 +2,9 @@
 
 # 👀 Transcribe Videos and Audios to Text
 
-This application allows users to upload images and extract the text from them.
-After the text is extracted they can edit the text and copy it to the clipboard
+This application allows users to Transcribe videos or audio to text
 
-> You can try free app [here](https://sagi-detect-text-from-images.streamlit.app/)
+> You can try free app [here](https://sagi-Transcribe-Videos-Audios-to-text.streamlit.app/)
 
 [![Linktree](https://img.shields.io/badge/linktree-white?style=for-the-badge&logo=linktree&logoColor=43E55E)](https://linktr.ee/sagib?lt_utm_source=lt_share_link#373198503) |
 [![Facebook](https://img.shields.io/badge/facebook-white?style=for-the-badge&logo=facebook&logoColor=0866FF)](https://www.facebook.com/sagi.baron) |

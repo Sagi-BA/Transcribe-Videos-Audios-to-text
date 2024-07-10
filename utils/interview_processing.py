@@ -17,11 +17,11 @@ if not os.path.exists(TEMP_AUDIO_DIR):
     os.makedirs(TEMP_AUDIO_DIR)
 
 def process_interviews(audio_file_paths):
-    # st.header("עיבוד ראיונות")
+    # st.header("מבצע עיבוד................................")
     # st.info(f"מנסה לעבד את הקבצים: {audio_file_paths}")
 
     try:
-        with st.spinner('Transcribing...'):
+        with st.spinner('נא להמתין מתמלל...'):
             transcriptions = client_wrapper.transcribe_audio(audio_file_paths)
             st.info("הקבצים תומללו מקול לטקסט STT!")
 
@@ -29,11 +29,11 @@ def process_interviews(audio_file_paths):
         for file_path, transcription in transcriptions.items():
             edited_texts[file_path] = transcription
 
-        st.success("עיבוד הראיונות הושלם בהצלחה!")
+        st.success("עיבוד הקבצים הושלם בהצלחה!")
         return edited_texts
 
     except Exception as e:
-        st.error(f"שגיאה בעיבוד קובץ האודיו: {str(e)}")
+        st.error(f"שגיאה בעיבוד הקובץ: {str(e)}")
         return ""
 
 def edit_text(text, style, character_type):
