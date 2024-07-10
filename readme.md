@@ -23,7 +23,7 @@ This application allows users to Transcribe videos or audio to text
 
 ## How it works
 
-This application allows users to upload images and extract text from them.
+This application allows users to upload videos or any audio files and extract text from them.
 
 ## Install dependencies
 
