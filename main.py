@@ -81,19 +81,25 @@ def main():
         if edited_texts:
             all_texts_combined = []
             for file_name, transcriptions in edited_texts.items():
-                # Join the list of transcriptions for each file
-                file_text = "\n".join(transcriptions)
-                st.text_area(f"טקסט שחולץ מ-{file_name}", value=file_text, height=200)
-                all_texts_combined.append(file_text)
-
-            # Join all file transcriptions
-            all_texts_combined = "\n\n".join(all_texts_combined)
-            st.session_state['all_texts_combined'] = all_texts_combined
-
-            # Send text to Telegram asynchronously
-            asyncio.run(send_telegram_message(all_texts_combined))            
-        else:
-            st.error("לא הצלחנו לחלץ טקסט מהקבצים שהועלו.")
+                # נוודא ש-transcriptions הוא רשימה של מחרוזות וללא ערכים None
+                if isinstance(transcriptions, list):
+                    transcriptions = [t for t in transcriptions if t is not None]
+                    if all(isinstance(t, str) for t in transcriptions):
+                        file_text = "\n".join(transcriptions)
+                        st.text_area(f"טקסט שחולץ מ-{file_name}", value=file_text, height=200)
+                        all_texts_combined.append(file_text)
+                    else:
+                        st.error(f"תמלול עבור {file_name} אינו במבנה נכון.")
+                else:
+                    st.error(f"לא ניתן לעבד את התמלול עבור {file_name}.")
+            
+            # נבדוק אם all_texts_combined אינו ריק לפני שליחת ההודעה ל-Telegram
+            if all_texts_combined:
+                all_texts_combined = "\n\n".join(all_texts_combined)
+                st.session_state['all_texts_combined'] = all_texts_combined
+                asyncio.run(send_telegram_message(all_texts_combined))
+            else:
+                st.error("לא הצלחנו לחלץ טקסט מהקבצים שהועלו.")
 
     user_count = get_user_count(formatted=True)
     footer_with_count = f"{footer_content}\n\n<p class='user-count'>סה\"כ משתמשים: {user_count}</p>"
