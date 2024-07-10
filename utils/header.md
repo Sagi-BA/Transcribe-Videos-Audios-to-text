@@ -1,3 +1,3 @@
-# אפליקציה המאפשרת לעלות קבצי אודיו או וידאו ולחלץ את הטקסט מהם בעברית
+# תמלול קבצי אודיו או וידאו בשפה העברית לעברית
 
-![image](https://i.imgur.com/FXFMBi4.jpeg)
+![header image](data/headerImage.jpeg)

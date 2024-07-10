@@ -1,16 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+
 body {
   direction: rtl;
   text-align: right;
+  font-size: 24px;
 }
 
-.stApp > header {
+.input-container {
+  display: flex;
+  align-items: center;
+}
+.image-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.stApp > header,
+.stApp > footer {
   background-color: #f0f2f6;
   padding: 1rem;
 }
 
 .stApp > footer {
-  background-color: #f0f2f6;
-  padding: 1rem;
   text-align: center;
 }
 
@@ -52,38 +66,6 @@ h1 {
   hyphens: auto;
 }
 
-/* Responsive styles */
-@media screen and (max-width: 768px) {
-  .main .block-container {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
-  .row-widget.stRadio > div {
-    flex-direction: column;
-  }
-
-  /* Increase button size on mobile for better touch targets */
-  .stButton > button {
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-  }
-
-  /* Adjust title size for mobile */
-  h1 {
-    font-size: 1.5rem;
-  }
-}
-
-/* Further adjustments for very small screens */
-@media screen and (max-width: 480px) {
-  h1 {
-    font-size: 1.2rem;
-  }
-}
-
 /* Ensure images don't overflow their containers */
 img {
   max-width: 100%;
@@ -103,6 +85,7 @@ img {
 .stFileUploader > div:first-child > div {
   width: 100%;
 }
+
 div.stButton > button:first-child {
   background-color: #0099ff;
   color: white;
@@ -116,4 +99,103 @@ div.stButton > button:first-child {
 div.stButton > button:hover {
   background-color: #0077cc;
   border-color: #0077cc;
+}
+
+/* Responsive styles */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+
+  .main .block-container {
+    padding: 1rem;
+  }
+
+  .stButton > button {
+    padding: 10px 20px;
+  }
+
+  .user-count {
+    color: var(--text-color);
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  /* New styles for centering */
+  .footer-content {
+    text-align: center;
+  }
+
+  .footer-content p {
+    margin: 0;
+  }
+
+  .word-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .word-item {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .download-button {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+
+  .word-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  .word-item {
+    padding: 8px;
+  }
+
+  .stNumberInput {
+    margin-top: -1rem;
+  }
+  .stNumberInput > div > div > input {
+    font-size: 54px;
+  }
+  .stNumberInput > div > div > label {
+    font-size: 54px;
+  }
+  .download-button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
 }

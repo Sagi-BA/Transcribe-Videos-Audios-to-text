@@ -44,20 +44,3 @@ def format_count(count):
     if count >= 1000:
         return f"{count:,}"
     return f"{count:,}"
-
-# CSS for the user count
-USER_COUNT_CSS = """
-<style>
-.user-count {
-    margin-top: 1rem;
-    font-weight: bold;
-    color: #4a4a4a;
-}
-
-@media screen and (max-width: 768px) {
-    .user-count {
-        font-size: 0.9rem;
-    }
-}
-</style>
-"""

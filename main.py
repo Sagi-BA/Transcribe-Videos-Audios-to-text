@@ -46,8 +46,14 @@ def delete_uploaded_files(file_paths):
             print(f"Error deleting file {file_path}: {e}")
 
 def main():
-    header_content, footer_content = initialize()
-    st.markdown(header_content)
+    image_path, footer_content = initialize()
+    
+    if image_path:
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            st.image(image_path, use_column_width=True)
+
+    # st.markdown(header_content)
 
     if st.button("התחל מחדש", use_container_width=True):
         start_over()
@@ -96,6 +102,7 @@ def main():
                 st.error("לא הצלחנו לחלץ טקסט מהקבצים שהועלו.")
 
     user_count = get_user_count(formatted=True)
+    
     footer_with_count = f"{footer_content}\n\n<p class='user-count'>סה\"כ משתמשים: {user_count}</p>"
     st.markdown(footer_with_count, unsafe_allow_html=True)
 
