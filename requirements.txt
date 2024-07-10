@@ -1,0 +1,18 @@
+streamlit 
+python-dotenv
+aiohttp #for telegram
+
+numpy
+pandas
+requests
+gradio_client
+moviepy
+
+# pytesseract 
+# pillow
+# google-cloud-vision
+# torch
+# torchvision
+# transformers
+
+# easyocr
