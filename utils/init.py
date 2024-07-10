@@ -3,7 +3,7 @@ from streamlit.components.v1 import html
 import os
 
 def initialize():
-    st.set_page_config(layout="wide", page_title="חילוץ טקסט מוידאו או אודיו", page_icon="📷")
+    st.set_page_config(layout="wide", page_title="אפליקציה המאפשרת להעלות קבצי אודיו או וידאו בעברית, ומתמללת את הקול לטקסט בעברית", page_icon="📷")
 
     # Load external CSS
     css_file_path = os.path.join('utils', 'styles.css')

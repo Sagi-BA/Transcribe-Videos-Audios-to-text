@@ -1,6 +1,6 @@
 ![Alt text](https://i.imgur.com/RhRQLLN.jpg)
 
-# 👀 Transcribe Videos and Audios to Text
+# 👀 An application that allows you to upload audio or video files in Hebrew, and transcribe the voice to text in Hebrew.
 
 This application allows users to Transcribe videos or audio to text
 
@@ -23,7 +23,7 @@ This application allows users to Transcribe videos or audio to text
 
 ## How it works
 
-This application allows users to upload videos or any audio files and extract text from them.
+This application allows users to upload videos or any audio files in hebrew and extract text in hebrew from them.
 
 ## Install dependencies
 
