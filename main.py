@@ -1,4 +1,4 @@
-import asyncio 
+import asyncio
 import streamlit as st
 import os
 import shutil
@@ -102,7 +102,6 @@ def main():
                 st.error("לא הצלחנו לחלץ טקסט מהקבצים שהועלו.")
 
     user_count = get_user_count(formatted=True)
-    
     footer_with_count = f"{footer_content}\n\n<p class='user-count'>סה\"כ משתמשים: {user_count}</p>"
     st.markdown(footer_with_count, unsafe_allow_html=True)
 
